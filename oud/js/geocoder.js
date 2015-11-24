@@ -21,12 +21,12 @@ function import_excel()
         startKolom = 5;
         xKolom = 1;
     }
-    var veld_type_array = new Array('Kies datatype', 'volledig adres', 'straat', 'huisnummer', 'toevoeging', 'postcode', 'plaats', 'land', 'label');
-    
+    var veld_type_array = new Array('Kies datatype', 'volledig adres', 'straat', 'huisnummer', 'toevoeging', 'postcode', 'woonplaats', 'land', 'label');
+
     var batch_content = "<h2>Upload Data met GeometrieProvider<div style='display:inline' id=import_exec></div></h2><div id=upload_result_table></div><div id=tekst_upload_eerste_regel>Kopieer vanuit Excel de data hierin:&nbsp;&nbsp;&nbsp;<input id=check_eerste_regel type=checkbox />Eerste regel bevat kolomnamen<br/><textarea style=\"width:98%;\" rows=15 id=batch_upload></textarea><br/><button id=upload_check_button class=\"more-space\">Data interpreteren</button><br/></div><input id=settings_menu type=hidden value=\"12\" /><br>";
 
-    //upload_check_button = data interpreteren op input-tab
-    $("#upload_check_button").click(function () {
+    $("#upload_check_button").click(function()
+    {
         var eerste_regel_checked = $("input[name='check_eerste_regel']").is(':checked');
 
         var all_data = new Array();
@@ -36,79 +36,90 @@ function import_excel()
         var regels = $("#batch_upload").val().split("\n");
 
         var clean_data = "";
-        if (regels.length > 0) {
+        if (regels.length > 0)
+        {
             var top_row = "";
             $("#tekst_upload_eerste_regel").hide();
             var split_type = 1;
             var array_eerste_regel = regels[0].split("\t");
             var nr_columns = array_eerste_regel.length;
-            if (nr_columns == 1) {
+            if (nr_columns == 1)
+            {
                 var array_eerste_regel = regels[0].split(";");
                 var nr_columns = array_eerste_regel.length;
                 split_type = 2;
             }
 
-
-            //rij met table headers
             top_row = "<tr>";
-            top_row += "<th class='hide'>Kies</th>";
-            if (debugOnOff) {
-                top_row += "<th class='showth'>Provider</th>";
+            top_row += "<th>Kies</th>";
+            if (debugOnOff)
+            {
+                top_row += "<th>Provider</th>";
             }
-            top_row += "<th class='showth'>X</th><th class='showth'>Y</th><th class='showth'>Lat</th><th class='showth'>Lon</th>";
+            top_row += "<th>X</th><th>Y</th><th>Lat</th><th>Lon</th>";
 
             var extra_kol_keuzes = "";
-            for (j = 0; j < veld_type_array.length; j++) {
+            for ( j = 0; j < veld_type_array.length; j++)
+            {
                 extra_kol_keuzes += "<option value='" + j + "'>" + veld_type_array[j] + "</option>";
             }
 
-            for (i = 0; i < array_eerste_regel.length; i++) {
+            for ( i = 0; i < array_eerste_regel.length; i++)
+            {
 
-                if ((array_eerste_regel[i] != "") && (eerste_regel_checked)) {
+                if ((array_eerste_regel[i] != "" ) && (eerste_regel_checked))
+                {
 
-                    top_row += "<th><span class='hide'><select id='excel_" + i + "'>" + extra_kol_keuzes + "</select></span><br/>";
-                    top_row += "<span class='showth'>" + array_eerste_regel[i] + "</span></th>";
+                    top_row += "<th>" + array_eerste_regel[i] + "<br/>";
+                    top_row += "<select id='excel_" + i + "'>" + extra_kol_keuzes + "</select></th>";
 
-                } else {
-                    top_row += "<th class='hide'><select class='select' id='excel_" + i + "'>" + extra_kol_keuzes + "</select>";
+                } else
+                {
+                    top_row += "<th><select id='excel_" + i + "'>" + extra_kol_keuzes + "</select></th>";
 
                 }
             }
             top_row += "</tr>";
 
-
-
             var content = "";
             var start = 0;
-            if (eerste_regel_checked) {
+            if (eerste_regel_checked)
+            {
                 start = 1;
             }
-            for (j = start; j < regels.length; j++) {
+            for ( j = start; j < regels.length; j++)
+            {
 
-                if (split_type == 1) {
+                if (split_type == 1)
+                {
                     var array_regel = regels[j].split("\t");
 
-                } else {
+                } else
+                {
                     var array_regel = regels[j].split(";");
 
                 }
 
-                if (nr_columns == array_regel.length) {
+                if (nr_columns == array_regel.length)
+                {
                     var deze_regel = "";
                     content += "<tr>";
-                    content += "<td class='hide'>" + j + "</td>";
-                    if (debugOnOff) {
-                        content += '<td class=\'showtd\' id="prov' + j + '"></td>';
+                    content += "<td>" + j + "</td>";
+                    if (debugOnOff)
+                    {
+                        content += '<td id="prov' + j + '"></td>';
                     }
-                    content += '<td class=\'showtd\' id="x' + j + '"></td>';
-                    content += '<td class=\'showtd\' id="y' + j + '"></td>';
-                    content += '<td class=\'showtd\' id="lat' + j + '"></td>';
-                    content += '<td class=\'showtd\' id="lon' + j + '"></td>';
+                    content += '<td id="x' + j + '"></td>';
+                    content += '<td id="y' + j + '"></td>';
+                    content += '<td id="lat' + j + '"></td>';
+                    content += '<td id="lon' + j + '"></td>';
 
-                    for (i = 0; i < array_regel.length; i++) {
-                        content += "<td class='showtd'>" + array_regel[i] + "</td>";
+                    for ( i = 0; i < array_regel.length; i++)
+                    {
+                        content += "<td>" + array_regel[i] + "</td>";
 
-                        if (deze_regel != "") {
+                        if (deze_regel != "")
+                        {
                             deze_regel += ";";
                         }
                         deze_regel += array_regel[i];
@@ -120,11 +131,10 @@ function import_excel()
                 }
 
             }
-            $("#outputTab").html("<table cellspacing=\"5\" cellpadding=\"5\" border=\"0\"><tr><td><button id=execute_import class=\"more-space\">Geocoding uitvoeren</button></td><td><a href=\"#\" id=download_csv role=\"button\" >Download CSV</button></a></td></tr></table><br /><table id='gridtable'>" + top_row + content + "</table>");
+            $("#outputTab").html("<table cellspacing=\"5\" cellpadding=\"5\" border=\"0\"><tr><td width=\"200px\"><button id=execute_import class=\"more-space\">Geocoding uitvoeren</button></td><td>Zoeken in: </td><td>&nbsp;</td><td>&nbsp</td></tr></table><br /><table id=gridtable>" + top_row + content + "</table>");
             $("#tabs a[name='outputTab']").trigger('click');
-            //execute_import = geocoding uitvoeren button van tab geocode output
-            $("#execute_import").click(function () {
-
+            $("#execute_import").click(function()
+            {
                 $(this).css("background-color", "#D9D9D9");
                 labelKolom = "";
 
@@ -133,13 +143,16 @@ function import_excel()
                 };
 
                 var new_regel = "";
-                $("[id^=excel]").each(function (i) {
+                $("[id^=excel]").each(function(i)
+                {
 
-                    if (new_regel != "") {
+                    if (new_regel != "")
+                    {
                         new_regel += ";";
                     }
                     new_regel += $(this).val();
-                    if ($(this).val() == 8) {
+                    if ($(this).val() == 8)
+                    {
                         labelKolom = i + startKolom;
                     }
 
@@ -152,11 +165,14 @@ function import_excel()
                 var url_send_excel_data = "send_excel_data.php";
 
                 var start = 0;
-                if (eerste_regel_checked) {
+                if (eerste_regel_checked)
+                {
                     start = 1;
                 }
-                for (k = start; k < all_data.length; k++) {
-                    if ($("#x" + (k)).text().length == 0 || $("#y" + (k)).text().length == 0 || $("#lat" + (k)).text().length == 0 || $("#lon" + (k)).text().length == 0) {
+                for ( k = start; k < all_data.length; k++)
+                {
+                    if ($("#x" + (k)).text().length == 0 || $("#y" + (k)).text().length == 0  || $("#lat" + (k)).text().length == 0 || $("#lon" + (k)).text().length == 0)
+                    {
                         data_post["excel_data"] = all_data[k];
                         //                   data_post["zoekRegio"] = $('input[name=radRegio]:checked').val();
 
@@ -168,17 +184,22 @@ function import_excel()
                                 search += fields[i] + " ";
 
                         console.log("Attempt Bag");
-                        GetBagGeocoder(search, function (data) {
+                        GetBagGeocoder(search, function(data)
+                        {
                             if (data != undefined)
                                 SetValues(k, data.provider, data.lat, data.lng, data.x, data.y);
-                            else {
+                            else
+                            {
                                 console.log("Attempt Nominatim");
-                                GetNominatimGeocoder(search, function (data) {
+                                GetNominatimGeocoder(search, function(data)
+                                {
                                     if (data != undefined)
                                         SetValues(k, data.provider, data.lat, data.lng, data.x, data.y);
-                                    else {
+                                    else
+                                    {
                                         console.log("Attempt Google");
-                                        GetGoogleGeocoder(search, function (data) {
+                                        GetGoogleGeocoder(search, function(data)
+                                        {
                                             if (data != undefined)
                                                 SetValues(k, data.provider, data.lat, data.lng, data.x, data.y);
                                         });
@@ -188,182 +209,88 @@ function import_excel()
                         });
 
                         /*
-                        $.ajax(
-                        {
-                        type : "POST",
-                        async : false,
-                        url : url_send_excel_data,
-                        data : data_post,
-                        dataType : "html",
-                        timeout: 5000
-                        }).done(function(result)
-                        {
-                        var coords = result.split(";");
-                        if (result && coords.length > 0)
-                        {
-                        if ($("#x" + (k)).html() == "")
-                        {
-                        if (debugOnOff == 1)
-                        {
-                        $("#prov" + (k)).html(coords[2]);
-                        }
-                        $("#x" + (k)).html(wgs842rd_x( coords[0],coords[1]));
-                        $("#y" + (k)).html(wgs842rd_y( coords[0],coords[1]));
-                        $("#lat" + (k)).html(coords[0]);
-                        $("#lon" + (k)).html(coords[1]);
-                        }
-                        }
-                        else  // geocoderen via ESRI of Google
-                        {
-                        var search = "";
-                        var fields = all_data[k].split(";");
-                        var allowed = new_regel.split(";");
-                        for( var i = 0; i < fields.length; i++)
-                        if(allowed[i] > 0)
-                        search += fields[i] + " ";
+                         $.ajax(
+                         {
+                         type : "POST",
+                         async : false,
+                         url : url_send_excel_data,
+                         data : data_post,
+                         dataType : "html",
+                         timeout: 5000
+                         }).done(function(result)
+                         {
+                         var coords = result.split(";");
+                         if (result && coords.length > 0)
+                         {
+                         if ($("#x" + (k)).html() == "")
+                         {
+                         if (debugOnOff == 1)
+                         {
+                         $("#prov" + (k)).html(coords[2]);
+                         }
+                         $("#x" + (k)).html(wgs842rd_x( coords[0],coords[1]));
+                         $("#y" + (k)).html(wgs842rd_y( coords[0],coords[1]));
+                         $("#lat" + (k)).html(coords[0]);
+                         $("#lon" + (k)).html(coords[1]);
+                         }
+                         }
+                         else  // geocoderen via ESRI of Google
+                         {
+                         var search = "";
+                         var fields = all_data[k].split(";");
+                         var allowed = new_regel.split(";");
+                         for( var i = 0; i < fields.length; i++)
+                         if(allowed[i] > 0)
+                         search += fields[i] + " ";
 
-                        GetGoogleGeocoder(search, function(data){
-                        if(data.status == "ZERO_RESULTS")
-                        return;
-                        if (debugOnOff == 1)
-                        {
-                        $("#prov" + (k)).html("Google");
-                        }
-                        $("#x" + (k)).html(wgs842rd_x( data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
-                        $("#y" + (k)).html(wgs842rd_y( data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
-                        $("#lat" + (k)).html(data.results[0].geometry.location.lat);
-                        $("#lon" + (k)).html(data.results[0].geometry.location.lng);
-                        });
-                        }
+                         GetGoogleGeocoder(search, function(data){
+                         if(data.status == "ZERO_RESULTS")
+                         return;
+                         if (debugOnOff == 1)
+                         {
+                         $("#prov" + (k)).html("Google");
+                         }
+                         $("#x" + (k)).html(wgs842rd_x( data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
+                         $("#y" + (k)).html(wgs842rd_y( data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
+                         $("#lat" + (k)).html(data.results[0].geometry.location.lat);
+                         $("#lon" + (k)).html(data.results[0].geometry.location.lng);
+                         });
+                         }
 
-                        /*
-                        var search = "";
-                        var fields = all_data[k].split(";");
-                        var allowed = new_regel.split(";");
-                        for( var i = 0; i < fields.length; i++)
-                        if(allowed[i] > 0)
-                        search += fields[i] + " ";
+                         /*
+                         var search = "";
+                         var fields = all_data[k].split(";");
+                         var allowed = new_regel.split(";");
+                         for( var i = 0; i < fields.length; i++)
+                         if(allowed[i] > 0)
+                         search += fields[i] + " ";
 
-                        GetNominatimGeocoder(search, function(data){
-                        if((!data || data.length < 1)
-                        return;
-                        if (debugOnOff == 1)
-                        {
-                        $("#prov" + (k)).html("Nominatim");
-                        }
-                        $("#x" + (k)).html(wgs842rd_x( data[0].lat, data[0].lon));
-                        $("#y" + (k)).html(wgs842rd_y( data[0].lat, data[0].lon));
-                        $("#lat" + (k)).html(data[0].lat);
-                        $("#lon" + (k)).html(data[0].lon);
-                        });
+                         GetNominatimGeocoder(search, function(data){
+                         if((!data || data.length < 1)
+                         return;
+                         if (debugOnOff == 1)
+                         {
+                         $("#prov" + (k)).html("Nominatim");
+                         }
+                         $("#x" + (k)).html(wgs842rd_x( data[0].lat, data[0].lon));
+                         $("#y" + (k)).html(wgs842rd_y( data[0].lat, data[0].lon));
+                         $("#lat" + (k)).html(data[0].lat);
+                         $("#lon" + (k)).html(data[0].lon);
+                         });
 
-                        *
+                         *
 
-                        }).fail(function(jqXHR, textStatus){
-                        alert("Er is iets fout gegaan met het verbinden met de geocodeerservice");
-                        });*/
+                         }).fail(function(jqXHR, textStatus){
+                         alert("Er is iets fout gegaan met het verbinden met de geocodeerservice");
+                         });*/
                     }
                 }
                 $("#execute_import").css("background-color", "#96BF0D");
 
             });
 
-            //author: http://stackoverflow.com/questions/16078544/export-to-csv-using-jquery-and-html (aanpassingen door: Sacha Richters)
-            // deze functie zorgt voor de functionaliteit van de button "download_csv"
-            // de button zorgt ervoor dat de inhoud van de tabel in de tab "geocode output" in een csv-format gezet wordt
-            // zodat deze gedownload kan worden en in excel kan worden geopend.
-            //script voor download_csv button
-            //$(document).ready(function () {
-            function exportTableToCSV($table, filename) {
-                var $headers = $table.find('tr:has(th)')
-                    , $rows = $table.find('tr:has(td)')
-
-                // Temporary delimiter characters unlikely to be typed by keyboard
-                // This is to avoid accidentally splitting the actual contents
-                    , tmpColDelim = String.fromCharCode(11) // vertical tab character
-                    , tmpRowDelim = String.fromCharCode(0) // null character
-
-                // actual delimiter characters for CSV format
-                    , colDelim = '";"'
-                    , rowDelim = '"\r\n"';
-
-                //proberen scheidingstekens te vervangen
-
-
-                // Grab text from table into CSV formatted string
-                var csv = '"';
-                csv += formatRows($headers.map(grabRow));
-                csv += rowDelim;
-                csv += formatRows($rows.map(grabRow)) + '"';
-
-                // Data URI
-                var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-
-                // For IE (tested 10+)
-                if (window.navigator.msSaveOrOpenBlob) {
-                    var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
-                        type: "text/csv;charset=utf-8;"
-                    });
-                    navigator.msSaveBlob(blob, filename);
-                } else {
-                    $(this)
-                        .attr({
-                            'download': filename
-                            , 'href': csvData
-                            //,'target' : '_blank' //if you want it to open in a new window
-                        });
-                }
-
-                //------------------------------------------------------------
-                // Helper Functions 
-                //------------------------------------------------------------
-                // Format the output so it has the appropriate delimiters
-                function formatRows(rows) {
-                    return rows.get().join(tmpRowDelim)
-                        .split(tmpRowDelim).join(rowDelim)
-                        .split(tmpColDelim).join(colDelim);
-                }
-
-                // Grab and format a row from the table
-                function grabRow(i, row) {
-
-                    var $row = $(row);
-                    //for some reason $cols = $row.find('td') || $row.find('th') won't work...
-                    var $cols = $row.find('.showtd');
-                    if (!$cols.length) $cols = $row.find('.showth');
-
-                    return $cols.map(grabCol)
-                                .get().join(tmpColDelim);
-                }
-                // Grab and format a column from the table 
-                function grabCol(j, col) {
-                    var $col = $(col),
-                        $text = $col.text();
-                        //replace scheidingstekens voor nederlandse excel
-                        $text = $text.replace(".", ",");
-
-                    return $text.replace('"', '""'); // escape double quotes
-
-                }
-            };
-            // });
-            $("#download_csv").click(function (event) {
-                // var outputFile = 'export'
-                var outputFile = prompt("Hoe wil je het bestand noemen?\nHet bestand komt terecht in de map \"Downloads\" (op de C-schijf)", "Geocoder"); //(Note: This won't have any effect on Safari)
-                outputFile = outputFile.replace('.csv', '') + '.csv'
-
-                // CSV
-                exportTableToCSV.apply(this, [$('#gridtable'), outputFile]);
-
-                // IF CSV, don't do event.preventDefault() or return false
-                // We actually need this to be a typical hyperlink
-            });
-
-
-
-
-
-        } else {
+        } else
+        {
             alert("Er is geen data opgegeven");
         }
 
@@ -803,18 +730,4 @@ function xmlToJson(xml)
     }
     return obj;
 };
-
-
-function removeDutchPcodeSpaces(pCode)
-{
-    pCodeTrim = $.trim(pCode);
-    if (pCodeTrim.length == 7 && pCodeTrim.indexOf(' ') == 4)
-    {
-        pCodeNoSpace = pCodeTrim.substr(0, 4) + pCodeTrim.substr(5,2);
-        return pCodeNoSpace;
-    }
-    else{
-        return pCodeTrim;
-    }
-}
 
