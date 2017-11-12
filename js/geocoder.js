@@ -142,8 +142,8 @@ function import_excel()
             $("#outputTab").html("<table cellspacing=\"5\" cellpadding=\"5\" border=\"0\">\
                                     <tr>\
                                         <td><button id=execute_import class=\"more-space\">Geocoding uitvoeren</button></td>\
-                                        <td><button><a href=\"#\" title=\"Met deze button download je het CSV waar de decimalen gescheiden zijn door een komma\" class=\"download_csv\" role=\"button\">Download CSV NL</button></a></button></td>\
-                                        <td><button><a href=\"#\" title=\"Met deze button download je het CSV waar de decimalen gescheiden zijn door een punt\" class=\"download_csv\" role=\"button\">Download CSV EN</button></a></button></td>\
+                                        <td><a href=\"#\" title=\"Met deze button download je het CSV waar de decimalen gescheiden zijn door een komma\" class=\"download_csv\" role=\"button\">Download CSV NL</a></td>\
+                                        <td><a href=\"#\" title=\"Met deze button download je het CSV waar de decimalen gescheiden zijn door een punt\" class=\"download_csv\" role=\"button\">Download CSV EN</a></td>\
                                     </tr>\
                                   </table><br />\
                                   <table id='gridtable'>" + top_row + content + "</table>");
@@ -327,7 +327,8 @@ function import_excel()
                 }
             };
             // });
-            $(".download_csv").click(function (event) {
+            $(document).on("click", "a.download_csv", function (event) {
+                console.log("Click");
                 // var outputFile = 'export'
                 var outputFile = prompt("Hoe wil je het bestand noemen?\nHet bestand komt terecht in de map \"Downloads\" (op de C-schijf)", "Geocoder"); //(Note: This won't have any effect on Safari)
                 outputFile = outputFile.replace('.csv', '') + '.csv'

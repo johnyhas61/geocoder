@@ -1,76 +1,91 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Geocodeer service HAS-GMD</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109565896-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-109565896-1');
+    </script>
+    <title>Geocodeer service HAS Hogeschool</title>
     <meta charset="UTF-8">
     <!--has icon-->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!--include jquery-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <!--JS includes-->
-	<script src="js/wgs84_rd.js"></script><!--berekenen latLong-->
-    <script src="js/OpenLayers.js"></script><!--open layers mapview library-->
-	<script src="js/geocoder.js"></script>
-	<script src="http://js.arcgis.com/3.12/"></script>
-	<script type="text/javascript">
-     $(document).ready(function () {
-         $('#map').height($(window).height() - 100);
-         $("#content div").hide(); // Initially hide all content
-         $("#tabs li:first").attr("id", "current"); // Activate first tab
-         $("#content div:first").fadeIn(); // Show first tab content
-         $("#inputTab > div").show();
-
-         $('#tabs a').click(function (e) {
-             e.preventDefault();
-             if ($(this).closest("li").attr("id") == "current") { //if current tab return
-                 return
-             }
-             else {
-                 $("#content div").hide(); //Hide all content
-                 $("#tabs li").attr("id", ""); //Reset id's
-                 $(this).parent().attr("id", "current"); // Activate this
-                 $('#' + $(this).attr('name')).fadeIn(); // Show content for current tab
-                 $('#' + $(this).attr('name') + " > div").show(); // Show all child-divs
-             }
-             if ($(this).attr("name") == 'inputTab') {
-                 $("#batch_upload").focus();
-             }
-             if ($(this).attr("name") == 'kaartTab') {
-                 initMapPDOK();
-                 $('#haslogo').css({ top: $('#map').height() - 110, left: "35px" });
-                 $("#haslogo").show();
-             }
-             if ($(this).attr("name") == 'jsonTab') {
-                 createLatLonJSON();
-             }
-         });
-
-         import_excel();
-     });
-	</script>
+    <script src="js/wgs84_rd.js"></script>
+    <!--berekenen latLong-->
+    <script src="js/OpenLayers.js"></script>
+    <!--open layers mapview library-->
+    <script src="js/geocoder.js"></script>
+    <script src="http://js.arcgis.com/3.12/"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#map').height($(window).height() - 100);
+            $("#content div").hide(); // Initially hide all content
+            $("#tabs li:first").attr("id", "current"); // Activate first tab
+            $("#content div:first").fadeIn(); // Show first tab content
+            $("#inputTab > div").show();
+            $('#tabs a').click(function (e) {
+                e.preventDefault();
+                if ($(this).closest("li").attr("id") == "current") { //if current tab return
+                    return
+                }
+                else {
+                    $("#content div").hide(); //Hide all content
+                    $("#tabs li").attr("id", ""); //Reset id's
+                    $(this).parent().attr("id", "current"); // Activate this
+                    $('#' + $(this).attr('name')).fadeIn(); // Show content for current tab
+                    $('#' + $(this).attr('name') + " > div").show(); // Show all child-divs
+                }
+                if ($(this).attr("name") == 'inputTab') {
+                    $("#batch_upload").focus();
+                }
+                if ($(this).attr("name") == 'kaartTab') {
+                    initMapPDOK();
+                    $('#haslogo').css({
+                        top: $('#map').height() - 110
+                        , left: "35px"
+                    });
+                    $("#haslogo").show();
+                }
+                if ($(this).attr("name") == 'jsonTab') {
+                    createLatLonJSON();
+                }
+            });
+            $('#logo').show();
+            import_excel();
+        });
+    </script>
     <!--style includes-->
-	<link href="style/OpenLayers.css" rel="stylesheet" />
-	<link href="style/geocoder.css" rel="stylesheet" />
-
-    <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> sensor parameter no longer required--> 
-</head> 
+    <link href="style/OpenLayers.css" rel="stylesheet" />
+    <link href="style/geocoder.css" rel="stylesheet" />
+    <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> sensor parameter no longer required-->
+</head>
 
 <body>
-	<ul id="tabs">
-	    <li><a href="#" name="helpTab">Welkom</a></li>    
-	    <li><a href="#" name="inputTab">Input</a></li>
-	    <li><a href="#" name="outputTab">Geocode output</a></li>
-	    <li><a href="#" name="kaartTab">Kaart</a></li>
-	    <li><a href="#" name="jsonTab">JSON output LatLon</a></li>
-	    <li><a href="#" name="jsonRD">JSON output RD</a></li>
-	</ul>
-	
-	<div id="content">        
-	    <div id="helpTab"><h2>Welkom</h2>
-	    	<div id="logo"><img src="images/HASlogo.png" alt="HAS logo" /></div>
-	    	<p>Welkom bij de Geocodeer-service van de opleiding GMD van HAS Hogeschool</p>
-	    	<p>Let op! Deze service is nog in ontwikkeling. </p>
+    <ul id="tabs">
+        <li><a href="#" name="helpTab">Welkom</a></li>
+        <li><a href="#" name="inputTab">Input</a></li>
+        <li><a href="#" name="outputTab">Geocode output</a></li>
+        <li><a href="#" name="kaartTab">Kaart</a></li>
+        <li><a href="#" name="jsonTab">JSON output LatLon</a></li>
+        <li><a href="#" name="jsonRD">JSON output RD</a></li>
+    </ul>
+    <div id="content">
+        <div id="helpTab">
+            <h2>Welkom</h2>
+            <div id="logo"><img src="images/HASlogo.png" alt="HAS logo" /></div>
+            <p>Welkom bij de Geocodeer-service van HAS Hogeschool</p>
+            <p>Let op! Deze service is nog in ontwikkeling. </p>
             <p>De werking is kort als volgt:</p>
             <ol>
                 <li>Plak gegevens uit een Excel-bestand met adresgegevens in het tabblad "Input".</li>
@@ -81,41 +96,39 @@
                 <li>Klik op "Geocoding uitvoeren"</li>
                 <li>Voor de rijen verschijnen de coördinaten in RD (X, Y) en WGS84 (Lat, Lon)</li>
                 <li>Als voor rijen geen coördinaten verschijnen is het betreffende adres niet gevonden. Er kan opnieuw geprobeerd worden deze adressen te geocoderen door een aantal van de datatypen boven de kolommen te verminderen (selecteer voor deze kolommen "Kies datatype"). De geocodering wordt hierdoor uiteraard wel minder nauwkeurig. Klik opnieuw op "Geocoding uitvoeren". De reeds gevonden coördinaten blijven onveranderd.</li>
-                <li>Als je tevreden bent over het resultaat kun je klikken op de link "Download_CSV". Deze link zorgt ervoor dat de gegevens in een door Excel leesbaar bestand wordt gezet. Het bestand komt dan in de map "Downloads" op de C-schijf. <b>Let op: </b>Als je NIET de Nederlandse versie van Excel hebt, zul je in het optie-menu van Excel de scheidingstekens moeten veranderen.</li>
+                <li>Als je tevreden bent over het resultaat kun je klikken op de link "Download_CSV_NL" voor een door Nederlandse Excel leesbaar bestand met punt-komma's als veldscheidingsteken en een komma als decimaal scheidingsteken. Klik op "Download_CSV_EN" voor een door Engelse Excel leesbaar bestand met komma's als veldscheidingsteken en een punt als decimaal scheidingsteken. Het bestand komt dan in de map "Downloads" op de C-schijf. </li>
                 <li>Als gebruikt gemaakt moet worden van JSON output, klik dan eerst op de "Kaart"-tab. Hierna is in beide JSON-tabs de JSON data beschikbaar.</li>
             </ol>
             <p>Tot slot: de geocoder werkt in FireFox het beste. Hier zie je langzaam de verschillende coördinaten verschijnen. In andere browsers verschijnen de coördinaten pas als alle adressen gecodeerd zijn.</p>
             <p>Bij het gebruik van grote hoeveelheden data duurt het geocoderen lang. Het kan zijn dat de browser de melding geeft dat de pagina niet reageert. Klik dan op "wachten", zodat het geocodeer proces niet afgebroken wordt.</p>
             <p>Voor vragen kun je contact opnemen met <a href="mailto:geolab@has.nl">geolab@has.nl</a></p>
-	    </div>
-	    <div id="inputTab">
-			<h2>Upload Excel-data</h2>
-			<div id='div_result_table'></div>
-			<div id='tekst_upload_eerste_regel'>
-				Kopieer vanuit Excel de data hierin:&nbsp;&nbsp;&nbsp;
-				<input id='check_eerste_regel' name='check_eerste_regel' type='checkbox' />
-				Eerste regel bevat kolomnamen
-				<br/>
-				<textarea style="width:98%;" rows=15 id='batch_upload'></textarea>
-		        <br/>		
-		        <button id='upload_check_button' class="more-space">Data interpreteren</button><br/>
-		    </div>
-		</div>
-   	    <div id="outputTab">Kopieer eerst data in het tabblad &#34;input&#34;</div>
-	    <div id="kaartTab">
-	    	<div id="map">
-	    		<div id="haslogo"><img src="images/HASlogo.png" alt="HAS logo"/></div>
-	    	</div>
-	    </div>
-	    <div id="jsonTab">
-	    	<h2>Output van LatLon in JSON formaat</h2>
-	    	<div id="showJSONLL"></div>
-	    </div>
-	    <div id="jsonRD">
-	    	<h2>Output van RD in JSON formaat</h2>
-	    	<div id="showJSONRD"></div>
-	    </div>
-	</div>	
-    
+        </div>
+        <div id="inputTab">
+            <h2>Upload Excel-data</h2>
+            <div id='div_result_table'></div>
+            <div id='tekst_upload_eerste_regel'> Kopieer vanuit Excel de data hierin:&nbsp;&nbsp;&nbsp;
+                <input id='check_eerste_regel' name='check_eerste_regel' type='checkbox' /> Eerste regel bevat kolomnamen
+                <br/>
+                <textarea style="width:98%;" rows=15 id='batch_upload'></textarea>
+                <br/>
+                <button id='upload_check_button' class="more-space">Data interpreteren</button>
+                <br/> </div>
+        </div>
+        <div id="outputTab">Kopieer eerst data in het tabblad &#34;input&#34;</div>
+        <div id="kaartTab">
+            <div id="map">
+                <div id="haslogo"><img src="images/HASlogo.png" alt="HAS logo" /></div>
+            </div>
+        </div>
+        <div id="jsonTab">
+            <h2>Output van LatLon in JSON formaat</h2>
+            <div id="showJSONLL"></div>
+        </div>
+        <div id="jsonRD">
+            <h2>Output van RD in JSON formaat</h2>
+            <div id="showJSONRD"></div>
+        </div>
+    </div>
 </body>
+
 </html>
